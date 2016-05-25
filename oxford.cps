@@ -205,7 +205,7 @@ function onSection() {
     writeln("");
     writeln("FARCALL \"ATTENUATOR.PGM\" s$POWER");
     writeln("MSGCLEAR -1");
-    writeln("MSGDISPLAY 1, \"Program Started\")");
+    writeln("MSGDISPLAY 1, \"Program Started\"");
     writeln("");
 
     if (properties.outerLoopPasses > 0) {
@@ -584,7 +584,9 @@ function onClose() {
   var x = xOutput.format(0);
   var y = yOutput.format(0);
   writeBlock(gMotionModal.format(0), x, y);
-  
+  writeln("MSGDISPLAY 1, \"Program Finished\"");
+  writeBlock(gAbsIncModal.format(91));
+
   onCommand(COMMAND_COOLANT_OFF);
 
   onImpliedCommand(COMMAND_END);
