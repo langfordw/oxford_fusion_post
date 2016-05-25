@@ -151,7 +151,7 @@ function onOpen() {
     break;
   }
   writeBlock(gUnitModal.format(92),"X0", "Y0");
-  writeBlock(gUnitModal.format(108));
+  writeBlock(gUnitModal.format(108)); // turn constant velocity mode on
 }
 
 function onComment(message) {
