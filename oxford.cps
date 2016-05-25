@@ -42,7 +42,7 @@ allowedCircularPlanes = undefined; // allow any circular motion
 properties = {
   power: 20,
   feedRate: 5,
-  outerLoopPasses: 0, // loops over all of the contours
+  outerLoopPasses: 1, // loops over all of the contours
   innerLoopPasses: 10, // number of passes per contour 
   allowHeadSwitches: true, // output code to allow heads to be manually switched for piercing and cutting
   useRetracts: true, // output retracts - otherwise only output part contours for importing in third-party jet application
@@ -120,12 +120,21 @@ function onOpen() {
   }
 
   writeln("");
-  writeComment("------ Declare Variables ------");
-  writeln("DVAR $POWER="+properties.power);
-  writeln("DVAR $FEED="+properties.feedRate);
-  writeln("DVAR $IL_PASSES="+properties.innerLoopPasses);
-  writeln("DVAR $OL_PASSES="+properties.outerLoopPasses);
+  writeComment("------ Declar and Set Variables ------");
+  writeln("DVAR $POWER");
+  writeln("DVAR $FEED");
+  writeln("DVAR $IL_PASSES");
+  writeln("DVAR $OL_PASSES");
   writeln("");
+  writeln("$POWER="+properties.power);
+  writeln("$FEED="+properties.feedRate);
+  writeln("$IL_PASSES="+properties.innerLoopPasses);
+  writeln("$OL_PASSES="+properties.outerLoopPasses);
+  writeln("");
+  
+  // ensure both pass variables are >= 1
+  if (properties.innerLoopPasses < 1) { properties.innerLoopPasses = 1; }
+  if (properties.outerLoopPasses < 1) { properties.outerLoopPasses = 1; }
 
   // absolute coordinates and feed per min
   writeBlock(gAbsIncModal.format(90));
@@ -208,9 +217,7 @@ function onSection() {
     writeln("MSGDISPLAY 1, \"Program Started\"");
     writeln("");
 
-    if (properties.outerLoopPasses > 0) {
-      writeln("REPEAT $OL_PASSES");
-    }
+    writeln("REPEAT $OL_PASSES");
 
     if (tool.comment) {
       writeComment(tool.comment);
@@ -333,9 +340,7 @@ var cuttingSequence = "";
 function onParameter(name, value) {
   if ((name == "action") && (value == "pierce")) {
     //writeComment("RUN POINT-PIERCE COMMAND HERE");
-    if (properties.innerLoopPasses > 0) {
-      writeln("REPEAT $IL_PASSES");
-    }
+    writeln("REPEAT $IL_PASSES");
   } else if (name == "shapeArea") {
     shapeArea = value;
     writeComment("SHAPE AREA = " + xyzFormat.format(shapeArea));
@@ -378,9 +383,7 @@ function setDeviceMode(enable) {
     if (enable) {
       writeln("BEAMON");
     } else {
-      if (properties.innerLoopPasses > 0) {
-        writeln("ENDRPT");
-      }
+      writeln("ENDRPT");
       writeln("BEAMOFF");
     }
   }
@@ -577,9 +580,7 @@ function onSectionEnd() {
 function onClose() {
   writeln("");
 
-  if (properties.outerLoopPasses > 0) {
-      writeln("ENDRPT");
-  }
+  writeln("ENDRPT");
 
   var x = xOutput.format(0);
   var y = yOutput.format(0);
