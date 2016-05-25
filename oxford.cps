@@ -124,7 +124,7 @@ function onOpen() {
   }
 
   writeln("");
-  writeComment("------ Declar and Set Variables ------");
+  writeComment("------ Declare and Set Variables ------");
   writeln("DVAR $POWER");
   writeln("DVAR $FEED");
   writeln("DVAR $IL_PASSES");
