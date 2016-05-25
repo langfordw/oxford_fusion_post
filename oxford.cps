@@ -11,6 +11,9 @@
   serves as a template for customization for an actual CNC.
 
   $Date: 2016-05-25 $
+  
+  To Do:
+    - add printout of current pass # (both inner and outer)
 */
 
 description = "Oxford Laser";
