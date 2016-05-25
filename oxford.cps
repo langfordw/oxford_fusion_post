@@ -14,6 +14,7 @@
   
   To Do:
     - add printout of current pass # (both inner and outer)
+    - add circular interpolation movement blocks
 */
 
 description = "Oxford Laser";
