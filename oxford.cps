@@ -388,6 +388,14 @@ function setDeviceMode(enable) {
     if (enable) {
       writeln("BEAMON");
     } else {
+      if (shapeSide == "open") {
+        writeln(";WARNING: OPEN CONTOUR DETECTED – EXPERIMENTAL");
+        var initialPosition = getFramePosition(currentSection.getInitialPosition());
+        writeBlock(
+          gAbsIncModal.format(90),
+          gMotionModal.format(0), xOutput.format(initialPosition.x), yOutput.format(initialPosition.y)
+        );
+      }
       writeln("ENDRPT");
       writeln("BEAMOFF");
     }
