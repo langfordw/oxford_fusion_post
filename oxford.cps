@@ -123,6 +123,10 @@ function onOpen() {
     }
   }
 
+  // ensure both pass variables are >= 1
+  if (properties.innerLoopPasses < 1) { properties.innerLoopPasses = 1; }
+  if (properties.outerLoopPasses < 1) { properties.outerLoopPasses = 1; }
+
   writeln("");
   writeComment("------ Declare and Set Variables ------");
   writeln("DVAR $POWER");
@@ -135,10 +139,7 @@ function onOpen() {
   writeln("$IL_PASSES="+properties.innerLoopPasses);
   writeln("$OL_PASSES="+properties.outerLoopPasses);
   writeln("");
-  
-  // ensure both pass variables are >= 1
-  if (properties.innerLoopPasses < 1) { properties.innerLoopPasses = 1; }
-  if (properties.outerLoopPasses < 1) { properties.outerLoopPasses = 1; }
+
 
   // absolute coordinates and feed per min
   writeBlock(gAbsIncModal.format(90));
